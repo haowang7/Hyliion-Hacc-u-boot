@@ -185,7 +185,24 @@ static struct musb_hdrc_config musb_config = {
 };
 
 #if CONFIG_IS_ENABLED(DM_USB) && !CONFIG_IS_ENABLED(OF_CONTROL)
-static struct ti_musb_platdata usb0 = {
+static struct ti_musb_platdat
+//		pinid = 1*32+21;
+		for(i=17;i<=22;i++)
+		{
+			pinid=1*32+i;
+			if(!(gpio_request(pinid, "led")))
+			{
+				gpio_direction_output(pinid,1);
+				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+			}
+		}
+
+		pinid = 1*32+24;
+		if(!(gpio_request(pinid, "led")))
+		{
+			gpio_direction_output(pinid,1);
+			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+		}a usb0 = {
 	.base = (void *)USB0_OTG_BASE,
 	.ctrl_mod_base = &((struct ctrl_dev *)CTRL_DEVICE_BASE)->usb_ctrl0,
 	.plat = {
@@ -368,10 +385,38 @@ void update_rtc_magic(void)
 int board_early_init_f(void)
 {
 	prcm_init();
+
 	set_mux_conf_regs();
+
 #if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_RTC_DDR_SUPPORT)
 	update_rtc_magic();
 #endif
+	//test
+	{
+		static int state;//added for gpio test
+	//	1=2;
+		unsigned char i,pinid;
+
+		//testing u-boot io
+		while(1)
+		{
+	//		1=2;
+		//gpio_set_value(150, 0);
+		for(i=17;i<=22;i++)
+		{
+			pinid = 1*32+i;
+			state = gpio_get_value(pinid);
+			gpio_direction_output(pinid, !state);
+			printf("gpio %d toggle\n",i);
+		}
+		pinid = 1*32+24;
+		state = gpio_get_value(pinid);
+		gpio_direction_output(pinid, !state);
+		printf("gpio %d toggle\n",i);
+		udelay(2000000);
+		}
+	}
+	////
 	return 0;
 }
 
@@ -383,17 +428,17 @@ __weak void am33xx_spl_board_init(void)
 {
 }
 
-#if defined(CONFIG_SPL_AM33XX_ENABLE_RTC32K_OSC)
-static void rtc32k_enable(void)
-{
-	struct davinci_rtc *rtc = (struct davinci_rtc *)RTC_BASE;
-
-	rtc32k_unlock(rtc);
-
-	/* Enable the RTC 32K OSC by setting bits 3 and 6. */
-	writel((1 << 3) | (1 << 6), &rtc->osc);
-}
-#endif
+//#if defined(CONFIG_SPL_AM33XX_ENABLE_RTC32K_OSC)
+//static void rtc32k_enable(void)
+//{
+//	struct davinci_rtc *rtc = (struct davinci_rtc *)RTC_BASE;
+//
+//	rtc32k_unlock(rtc);
+//
+//	/* Enable the RTC 32K OSC by setting bits 3 and 6. */
+//	writel((1 << 3) | (1 << 6), &rtc->osc);
+//}
+//#endif
 
 static void uart_soft_reset(void)
 {
@@ -519,6 +564,49 @@ void early_system_init(void)
 	spl_early_init();
 #endif
 
+	//test
+	{
+		static int state;//added for gpio test
+	//	1=2;
+		unsigned char i,pinid;
+
+//		pinid = 1*32+21;
+		for(i=17;i<=22;i++)
+		{
+			pinid=1*32+i;
+			if(!(gpio_request(pinid, "led")))
+			{
+				gpio_direction_output(pinid,1);
+				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+			}
+		}
+
+		pinid = 1*32+24;
+		if(!(gpio_request(pinid, "led")))
+		{
+			gpio_direction_output(pinid,1);
+			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+		}
+//		//testing u-boot io
+//		while(1)
+//		{
+//	//		1=2;
+//		//gpio_set_value(150, 0);
+//		for(i=17;i<=22;i++)
+//		{
+//			pinid = 1*32+i;
+//			state = gpio_get_value(pinid);
+//			gpio_direction_output(pinid, !state);
+//			printf("gpio %d toggle\n",i);
+//		}
+//		pinid = 1*32+24;
+//		state = gpio_get_value(pinid);
+//		gpio_direction_output(pinid, !state);
+//		printf("gpio %d toggle\n",i);
+//		udelay(2000000);
+//		}
+	}
+	////
 #ifdef CONFIG_TI_I2C_BOARD_DETECT
 	do_board_detect();
 #endif
