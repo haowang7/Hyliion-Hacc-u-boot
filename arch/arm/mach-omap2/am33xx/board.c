@@ -185,24 +185,7 @@ static struct musb_hdrc_config musb_config = {
 };
 
 #if CONFIG_IS_ENABLED(DM_USB) && !CONFIG_IS_ENABLED(OF_CONTROL)
-static struct ti_musb_platdat
-//		pinid = 1*32+21;
-		for(i=17;i<=22;i++)
-		{
-			pinid=1*32+i;
-			if(!(gpio_request(pinid, "led")))
-			{
-				gpio_direction_output(pinid,1);
-				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-			}
-		}
-
-		pinid = 1*32+24;
-		if(!(gpio_request(pinid, "led")))
-		{
-			gpio_direction_output(pinid,1);
-			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-		}a usb0 = {
+static struct ti_musb_platdata usb0 = {
 	.base = (void *)USB0_OTG_BASE,
 	.ctrl_mod_base = &((struct ctrl_dev *)CTRL_DEVICE_BASE)->usb_ctrl0,
 	.plat = {
@@ -397,6 +380,23 @@ int board_early_init_f(void)
 	//	1=2;
 		unsigned char i,pinid;
 
+//		pinid = 1*32+21;
+		for(i=17;i<=22;i++)
+		{
+			pinid=1*32+i;
+			if(!(gpio_request(pinid, "led")))
+			{
+				gpio_direction_output(pinid,1);
+				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+			}
+		}
+
+		pinid = 1*32+24;
+		if(!(gpio_request(pinid, "led")))
+		{
+			gpio_direction_output(pinid,1);
+			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+		}
 		//testing u-boot io
 		while(1)
 		{
@@ -564,29 +564,29 @@ void early_system_init(void)
 	spl_early_init();
 #endif
 
-	//test
-	{
-		static int state;//added for gpio test
-	//	1=2;
-		unsigned char i,pinid;
-
-//		pinid = 1*32+21;
-		for(i=17;i<=22;i++)
-		{
-			pinid=1*32+i;
-			if(!(gpio_request(pinid, "led")))
-			{
-				gpio_direction_output(pinid,1);
-				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-			}
-		}
-
-		pinid = 1*32+24;
-		if(!(gpio_request(pinid, "led")))
-		{
-			gpio_direction_output(pinid,1);
-			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-		}
+//	//test
+//	{
+//		static int state;//added for gpio test
+//	//	1=2;
+//		unsigned char i,pinid;
+//
+////		pinid = 1*32+21;
+//		for(i=17;i<=22;i++)
+//		{
+//			pinid=1*32+i;
+//			if(!(gpio_request(pinid, "led")))
+//			{
+//				gpio_direction_output(pinid,1);
+//				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+//			}
+//		}
+//
+//		pinid = 1*32+24;
+//		if(!(gpio_request(pinid, "led")))
+//		{
+//			gpio_direction_output(pinid,1);
+//			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+//		}
 //		//testing u-boot io
 //		while(1)
 //		{
@@ -605,8 +605,8 @@ void early_system_init(void)
 //		printf("gpio %d toggle\n",i);
 //		udelay(2000000);
 //		}
-	}
-	////
+//	}
+//	////
 #ifdef CONFIG_TI_I2C_BOARD_DETECT
 	do_board_detect();
 #endif
