@@ -33,46 +33,5 @@
 #include "board.h"
 
 //blinker test
-void blinker(void)
-{
-	static int state;//added for gpio test
-//	1=2;
-	unsigned char i,pinid;
-
-//		pinid = 1*32+21;
-	for(i=17;i<=22;i++)
-	{
-		pinid=1*32+i;
-		if(!(gpio_request(pinid, "led")))
-		{
-			gpio_direction_output(pinid,1);
-			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-		}
-	}
-
-	pinid = 1*32+24;
-	if(!(gpio_request(pinid, "led")))
-	{
-		gpio_direction_output(pinid,1);
-		printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-	}
-	//testing u-boot io
-	while(1)
-	{
-//		1=2;
-	//gpio_set_value(150, 0);
-	for(i=17;i<=22;i++)
-	{
-		pinid = 1*32+i;
-		state = gpio_get_value(pinid);
-		gpio_direction_output(pinid, !state);
-		printf("gpio %d toggle\n",i);
-	}
-	pinid = 1*32+24;
-	state = gpio_get_value(pinid);
-	gpio_direction_output(pinid, !state);
-	printf("gpio %d toggle\n",i);
-	udelay(2000000);
-	}
-}
+extern void blinker(unsigned char first, unsigned char last);
 

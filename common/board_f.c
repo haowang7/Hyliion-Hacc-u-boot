@@ -43,6 +43,9 @@
 #include <asm/sections.h>
 #include <dm/root.h>
 #include <linux/errno.h>
+//test blinker
+#include "../board/ti/am335x/board_test.h"
+////
 
 /*
  * Pointer to initial global data area

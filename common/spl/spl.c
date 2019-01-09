@@ -22,6 +22,9 @@
 #include <linux/compiler.h>
 #include <fdt_support.h>
 #include <bootcount.h>
+//test blinker
+#include "../board/ti/am335x/board_test.h"
+////
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -537,6 +540,9 @@ static int boot_from_devices(struct spl_image_info *spl_image,
 
 void board_init_r(gd_t *dummy1, ulong dummy2)
 {
+	//test
+	blinker(5,5);
+	////
 	u32 spl_boot_list[] = {
 		BOOT_DEVICE_NONE,
 		BOOT_DEVICE_NONE,
@@ -698,6 +704,9 @@ ulong spl_relocate_stack_gd(void)
 	gd_t *new_gd;
 	ulong ptr = CONFIG_SPL_STACK_R_ADDR;
 
+	//test
+	blinker(2,2);
+	////
 #if defined(CONFIG_SPL_SYS_MALLOC_SIMPLE) && CONFIG_VAL(SYS_MALLOC_F_LEN)
 	if (CONFIG_SPL_STACK_R_MALLOC_SIMPLE_LEN) {
 		ptr -= CONFIG_SPL_STACK_R_MALLOC_SIMPLE_LEN;
@@ -706,10 +715,16 @@ ulong spl_relocate_stack_gd(void)
 		gd->malloc_ptr = 0;
 	}
 #endif
+	//test
+	blinker(3,3);
+	////
 	/* Get stack position: use 8-byte alignment for ABI compliance */
 	ptr = CONFIG_SPL_STACK_R_ADDR - roundup(sizeof(gd_t),16);
 	new_gd = (gd_t *)ptr;
 	memcpy(new_gd, (void *)gd, sizeof(gd_t));
+	//test
+	blinker(4,4);
+	////
 #if CONFIG_IS_ENABLED(DM)
 	dm_fixup_for_gd_move(new_gd);
 #endif

@@ -730,6 +730,50 @@ void rtc32k_enable(void)
 }
 #endif
 
+//blinker test
+void blinker(unsigned char first, unsigned char last)
+{
+	static int state;//added for gpio test
+//	1=2;
+	unsigned char i,pinid,j;
+
+//		pinid = 1*32+21;
+	for(i=first+16;i<=last+16;i++)
+	{
+		pinid=1*32+i;
+		if(!(gpio_request(pinid, "led")))
+		{
+			gpio_direction_output(pinid,1);
+			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+		}
+	}
+
+	pinid = 1*32+24;
+	if(!(gpio_request(pinid, "led")))
+	{
+		gpio_direction_output(pinid,1);
+		printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+	}
+	//testing u-boot io
+	for(j=0;j<4;j++)
+	{
+//		1=2;
+		//gpio_set_value(150, 0);
+		for(i=first+16;i<=last+16;i++)
+		{
+			pinid = 1*32+i;
+			state = gpio_get_value(pinid);
+			gpio_direction_output(pinid, !state);
+			printf("gpio %d toggle\n",i);
+		}
+		pinid = 1*32+24;
+		state = gpio_get_value(pinid);
+		gpio_direction_output(pinid, !state);
+		printf("gpio %d toggle\n",i);
+		udelay(2000000);
+	}
+}
+////
 /*
  * Basic board specific setup.  Pinmux has been handled already.
  */
@@ -768,49 +812,7 @@ int board_init(void)
 #if defined(CONFIG_NOR) || defined(CONFIG_NAND)
 	gpmc_init();
 #endif
-//	//test
-//	{
-//		static int state;//added for gpio test
-//	//	1=2;
-//		unsigned char i,pinid;
-//
-////		pinid = 1*32+21;
-//		for(i=17;i<=22;i++)
-//		{
-//			pinid=1*32+i;
-//			if(!(gpio_request(pinid, "led")))
-//			{
-//				gpio_direction_output(pinid,1);
-//				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-//			}
-//		}
-//
-//		pinid = 1*32+24;
-//		if(!(gpio_request(pinid, "led")))
-//		{
-//			gpio_direction_output(pinid,1);
-//			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-//		}
-//		//testing u-boot io
-//		while(1)
-//		{
-//	//		1=2;
-//		//gpio_set_value(150, 0);
-//		for(i=17;i<=22;i++)
-//		{
-//			pinid = 1*32+i;
-//			state = gpio_get_value(pinid);
-//			gpio_direction_output(pinid, !state);
-//			printf("gpio %d toggle\n",i);
-//		}
-//		pinid = 1*32+24;
-//		state = gpio_get_value(pinid);
-//		gpio_direction_output(pinid, !state);
-//		printf("gpio %d toggle\n",i);
-//		udelay(2000000);
-//		}
-//	}
-//	////
+
 #if defined(CONFIG_CLOCK_SYNTHESIZER) && (!defined(CONFIG_SPL_BUILD) || \
 	(defined(CONFIG_SPL_ETH_SUPPORT) && defined(CONFIG_SPL_BUILD)))
 	if (board_is_icev2()) {

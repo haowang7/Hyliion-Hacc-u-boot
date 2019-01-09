@@ -37,7 +37,9 @@
 #include <linux/usb/musb.h>
 #include <asm/omap_musb.h>
 #include <asm/davinci_rtc.h>
+//test blinker
 #include "../board/ti/am335x/board_test.h"
+////
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -630,7 +632,7 @@ void board_init_f(ulong dummy)
 			(void *)CONFIG_SYS_SDRAM_BASE,
 			CONFIG_MAX_RAM_BANK_SIZE);
 	//test
-	blinker();
+	blinker(1,1);
 	////
 }
 #endif
