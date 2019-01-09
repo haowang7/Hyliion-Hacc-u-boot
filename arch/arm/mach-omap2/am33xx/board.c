@@ -37,6 +37,7 @@
 #include <linux/usb/musb.h>
 #include <asm/omap_musb.h>
 #include <asm/davinci_rtc.h>
+#include "../board/ti/am335x/board_test.h"
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -374,49 +375,49 @@ int board_early_init_f(void)
 #if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_RTC_DDR_SUPPORT)
 	update_rtc_magic();
 #endif
-	//test
-	{
-		static int state;//added for gpio test
-	//	1=2;
-		unsigned char i,pinid;
-
-//		pinid = 1*32+21;
-		for(i=17;i<=22;i++)
-		{
-			pinid=1*32+i;
-			if(!(gpio_request(pinid, "led")))
-			{
-				gpio_direction_output(pinid,1);
-				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-			}
-		}
-
-		pinid = 1*32+24;
-		if(!(gpio_request(pinid, "led")))
-		{
-			gpio_direction_output(pinid,1);
-			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
-		}
-		//testing u-boot io
-		while(1)
-		{
-	//		1=2;
-		//gpio_set_value(150, 0);
-		for(i=17;i<=22;i++)
-		{
-			pinid = 1*32+i;
-			state = gpio_get_value(pinid);
-			gpio_direction_output(pinid, !state);
-			printf("gpio %d toggle\n",i);
-		}
-		pinid = 1*32+24;
-		state = gpio_get_value(pinid);
-		gpio_direction_output(pinid, !state);
-		printf("gpio %d toggle\n",i);
-		udelay(2000000);
-		}
-	}
-	////
+//	//test
+//	{
+//		static int state;//added for gpio test
+//	//	1=2;
+//		unsigned char i,pinid;
+//
+////		pinid = 1*32+21;
+//		for(i=17;i<=22;i++)
+//		{
+//			pinid=1*32+i;
+//			if(!(gpio_request(pinid, "led")))
+//			{
+//				gpio_direction_output(pinid,1);
+//				printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+//			}
+//		}
+//
+//		pinid = 1*32+24;
+//		if(!(gpio_request(pinid, "led")))
+//		{
+//			gpio_direction_output(pinid,1);
+//			printf("group %d gpio %d requested\n", pinid / 32, pinid - (pinid/32));
+//		}
+//		//testing u-boot io
+//		while(1)
+//		{
+//	//		1=2;
+//		//gpio_set_value(150, 0);
+//		for(i=17;i<=22;i++)
+//		{
+//			pinid = 1*32+i;
+//			state = gpio_get_value(pinid);
+//			gpio_direction_output(pinid, !state);
+//			printf("gpio %d toggle\n",i);
+//		}
+//		pinid = 1*32+24;
+//		state = gpio_get_value(pinid);
+//		gpio_direction_output(pinid, !state);
+//		printf("gpio %d toggle\n",i);
+//		udelay(2000000);
+//		}
+//	}
+//	////
 	return 0;
 }
 
@@ -628,6 +629,9 @@ void board_init_f(ulong dummy)
 	gd->ram_size = get_ram_size(
 			(void *)CONFIG_SYS_SDRAM_BASE,
 			CONFIG_MAX_RAM_BANK_SIZE);
+	//test
+	blinker();
+	////
 }
 #endif
 
