@@ -705,7 +705,8 @@ ulong spl_relocate_stack_gd(void)
 	ulong ptr = CONFIG_SPL_STACK_R_ADDR;
 
 	//test
-	blinker(2,2);
+//	if(ptr==0x82000000)
+	blinker(1,1);
 	////
 #if defined(CONFIG_SPL_SYS_MALLOC_SIMPLE) && CONFIG_VAL(SYS_MALLOC_F_LEN)
 	if (CONFIG_SPL_STACK_R_MALLOC_SIMPLE_LEN) {
@@ -715,19 +716,25 @@ ulong spl_relocate_stack_gd(void)
 		gd->malloc_ptr = 0;
 	}
 #endif
-	//test
-	blinker(3,3);
-	////
+//	//test
+//	blinker(3,3);
+//	////
 	/* Get stack position: use 8-byte alignment for ABI compliance */
 	ptr = CONFIG_SPL_STACK_R_ADDR - roundup(sizeof(gd_t),16);
 	new_gd = (gd_t *)ptr;
 	memcpy(new_gd, (void *)gd, sizeof(gd_t));
 	//test
-	blinker(4,4);
+	blinker(2,2);
 	////
 #if CONFIG_IS_ENABLED(DM)
+	//test
+	blinker(3,3);
+	////
 	dm_fixup_for_gd_move(new_gd);
 #endif
+	//test
+	blinker(4,4);
+	////
 #if !defined(CONFIG_ARM)
 	gd = new_gd;
 #endif

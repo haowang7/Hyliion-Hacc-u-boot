@@ -631,9 +631,9 @@ void board_init_f(ulong dummy)
 	gd->ram_size = get_ram_size(
 			(void *)CONFIG_SYS_SDRAM_BASE,
 			CONFIG_MAX_RAM_BANK_SIZE);
-	//test
-	blinker(1,1);
-	////
+//	//test
+//	blinker(1,1);
+//	////blinker works on both HACC and PB, printf msg on uart0 not working
 }
 #endif
 
