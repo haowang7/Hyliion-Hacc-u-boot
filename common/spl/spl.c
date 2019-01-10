@@ -732,9 +732,9 @@ ulong spl_relocate_stack_gd(void)
 	////
 	dm_fixup_for_gd_move(new_gd);
 #endif
-	//test
-	blinker(4,4);
-	////
+//	//test
+//	blinker(4,4);
+//	////
 #if !defined(CONFIG_ARM)
 	gd = new_gd;
 #endif

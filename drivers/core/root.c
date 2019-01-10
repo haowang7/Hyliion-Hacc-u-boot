@@ -22,6 +22,9 @@
 #include <dm/uclass.h>
 #include <dm/util.h>
 #include <linux/list.h>
+//test blinker
+#include "../board/ti/am335x/board_test.h"
+////
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -50,6 +53,9 @@ void dm_fixup_for_gd_move(struct global_data *new_gd)
 		new_gd->uclass_root.next->prev = &new_gd->uclass_root;
 		new_gd->uclass_root.prev->next = &new_gd->uclass_root;
 	}
+	//test
+	blinker(4,4);
+	////
 }
 
 fdt_addr_t dm_get_translation_offset(void)
