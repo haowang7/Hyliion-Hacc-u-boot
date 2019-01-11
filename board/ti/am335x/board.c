@@ -64,6 +64,13 @@ static struct ctrl_dev *cdev = (struct ctrl_dev *)CTRL_DEVICE_BASE;
 #define GPIO0_IRQSTATUSRAW	(AM33XX_GPIO0_BASE + 0x024)
 #define GPIO1_IRQSTATUSRAW	(AM33XX_GPIO1_BASE + 0x024)
 
+//add UART support pins
+#define GPIO_UART_ForceOn GPIO_TO_PIN(2,25) /* LCD_AC_BIAS_EN */
+#define GPIO_UART_ForceOff GPIO_TO_PIN(2,22) /* LCD_VSYNC */
+#define GPIO_UART_Rx_En GPIO_TO_PIN(1,9) /* UART0_RTSN */
+#define GPIO_UART_RxInvalid GPIO_TO_PIN(1,8) /* UART0_CTSN */
+////
+
 /*
  * Read header information from EEPROM into global structure.
  */
@@ -814,6 +821,16 @@ int board_init(void)
 #endif
 
 	//test
+	if(!(gpio_request(GPIO_UART_ForceOn, "UART_ForceOn")))
+	{
+		gpio_direction_output(GPIO_UART_ForceOn,1);
+		printf("gpio UART_ForceOn requested and set to 1\n");
+	}
+	if(!(gpio_request(GPIO_UART_ForceOff, "UART_ForceOn")))
+	{
+		gpio_direction_output(GPIO_UART_ForceOff,1);
+		printf("gpio UART_ForceOn requested and set to 1\n");
+	}
 	while(1) {
 	blinker(4,4);
 	}
