@@ -541,7 +541,7 @@ static int boot_from_devices(struct spl_image_info *spl_image,
 void board_init_r(gd_t *dummy1, ulong dummy2)
 {
 	//test
-	blinker(5,5);
+	blinker(3,3);
 	////
 	u32 spl_boot_list[] = {
 		BOOT_DEVICE_NONE,
@@ -723,13 +723,13 @@ ulong spl_relocate_stack_gd(void)
 	ptr = CONFIG_SPL_STACK_R_ADDR - roundup(sizeof(gd_t),16);
 	new_gd = (gd_t *)ptr;
 	memcpy(new_gd, (void *)gd, sizeof(gd_t));
-	//test
-	blinker(2,2);
-	////
+//	//test
+//	blinker(2,2);
+//	////
 #if CONFIG_IS_ENABLED(DM)
-	//test
-	blinker(3,3);
-	////
+//	//test
+//	blinker(3,3);
+//	////
 	dm_fixup_for_gd_move(new_gd);
 #endif
 //	//test

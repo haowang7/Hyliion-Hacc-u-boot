@@ -54,7 +54,7 @@ void dm_fixup_for_gd_move(struct global_data *new_gd)
 		new_gd->uclass_root.prev->next = &new_gd->uclass_root;
 	}
 	//test
-	blinker(4,4);
+	blinker(2,2);
 	////
 }
 
