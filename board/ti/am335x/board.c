@@ -831,9 +831,9 @@ int board_init(void)
 		gpio_direction_output(GPIO_UART_ForceOff,1);
 		printf("gpio UART_ForceOn requested and set to 1\n");
 	}
-	while(1) {
+//	while(1) {
 	blinker(4,4);
-	}
+//	}
 	////
 #if defined(CONFIG_CLOCK_SYNTHESIZER) && (!defined(CONFIG_SPL_BUILD) || \
 	(defined(CONFIG_SPL_ETH_SUPPORT) && defined(CONFIG_SPL_BUILD)))
