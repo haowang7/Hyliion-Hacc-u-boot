@@ -86,6 +86,9 @@ __weak void board_quiesce_devices(void)
  */
 static void announce_and_cleanup(int fake)
 {
+//	//test
+//	blinker(2,2);
+//	////
 	printf("\nStarting kernel ...%s\n\n", fake ?
 		"(fake run for tracing)" : "");
 	bootstage_mark_name(BOOTSTAGE_ID_BOOTM_HANDOFF, "start_kernel");
@@ -109,7 +112,13 @@ static void announce_and_cleanup(int fake)
 	 */
 	dm_remove_devices_flags(DM_REMOVE_ACTIVE_ALL);
 
+//	//test
+//	blinker(3,3);
+//	////
 	cleanup_before_linux();
+//	//test
+//	blinker(4,4);
+//	////
 }
 
 static void setup_start_tag (bd_t *bd)
@@ -332,7 +341,9 @@ static void boot_jump_linux(bootm_headers_t *images, int flag)
 	bootstage_mark(BOOTSTAGE_ID_RUN_OS);
 
 	announce_and_cleanup(fake);
-
+//	//test
+//	blinker(2,2);
+//	////
 	if (!fake) {
 #ifdef CONFIG_ARMV8_PSCI
 		armv8_setup_psci();
@@ -358,6 +369,9 @@ static void boot_jump_linux(bootm_headers_t *images, int flag)
 #endif
 	}
 #else
+	//test
+	blinker(1,1);
+	////
 	unsigned long machid = gd->bd->bi_arch_number;
 	char *s;
 	void (*kernel_entry)(int zero, int arch, uint params);
@@ -382,23 +396,41 @@ static void boot_jump_linux(bootm_headers_t *images, int flag)
 		"...\n", (ulong) kernel_entry);
 	bootstage_mark(BOOTSTAGE_ID_RUN_OS);
 	announce_and_cleanup(fake);
-
+//	//test
+//	blinker(2,2);
+//	////
 	if (IMAGE_ENABLE_OF_LIBFDT && images->ft_len)
 		r2 = (unsigned long)images->ft_addr;
 	else
 		r2 = gd->bd->bi_boot_params;
-
+//	//test
+//	blinker(2,2);
+//	////
 	if (!fake) {
 #ifdef CONFIG_ARMV7_NONSEC
 		if (armv7_boot_nonsec()) {
+//			//test
+//			blinker(3,3);
+//			////
 			armv7_init_nonsec();
 			secure_ram_addr(_do_nonsec_entry)(kernel_entry,
 							  0, machid, r2);
 		} else
 #endif
+		{
+			//test
+			blinker(2,2);
+			printf("machid=%lu\n",machid);
+			printf("r2=%lu\n",r2);
+			////
 			kernel_entry(0, machid, r2);
+		}
 	}
 #endif
+//	//test
+//	while(1)
+//	blinker(3,3);
+//	////
 }
 
 /* Main Entry point for arm bootm implementation

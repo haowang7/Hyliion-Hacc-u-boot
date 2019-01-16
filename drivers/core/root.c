@@ -53,9 +53,9 @@ void dm_fixup_for_gd_move(struct global_data *new_gd)
 		new_gd->uclass_root.next->prev = &new_gd->uclass_root;
 		new_gd->uclass_root.prev->next = &new_gd->uclass_root;
 	}
-	//test
-	blinker(2,2);
-	////
+//	//test
+//	blinker(2,2);
+//	////
 }
 
 fdt_addr_t dm_get_translation_offset(void)
