@@ -831,6 +831,11 @@ int board_init(void)
 		gpio_direction_output(GPIO_UART_ForceOff,1);
 		printf("gpio UART_ForceOn requested and set to 1\n");
 	}
+	if(!(gpio_request(GPIO_UART_Rx_En, "UART_Rx_En")))
+	{
+		gpio_direction_output(GPIO_UART_Rx_En,0);
+		printf("gpio UART_Rx_En requested and set to 1\n");
+	}
 //	//test
 ////	while(1) {
 //	blinker(1,1);
