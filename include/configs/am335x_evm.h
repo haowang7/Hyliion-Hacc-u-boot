@@ -200,6 +200,12 @@
 			"fi; " \
 		"fi; " \
 		"if test $board_name = A335PBGL; then " \
+			"if test -e mmc 0:1 /boot/.eeprom.txt; then " \
+				"load mmc 0:1 ${loadaddr} /boot/.eeprom.txt;" \
+				"env import -t ${loadaddr} ${filesize};" \
+				"echo Loaded environment from /boot/.eeprom.txt;" \
+				"run eeprom_program; " \
+			"fi;" \
 			"setenv fdtfile am335x-pocketbeagle.dtb; fi; " \
 		"if test $board_name = BBBW; then " \
 			"setenv fdtfile am335x-boneblack-wireless.dtb; fi; " \
